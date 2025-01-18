@@ -39,6 +39,8 @@
     "files.associations": {
         "*.html": "html",
         "*.css": "css",
-        "bootrom.h": "c"
+        "bootrom.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c"
     }
 }

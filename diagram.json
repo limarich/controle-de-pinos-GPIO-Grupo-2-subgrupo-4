@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "author": "equipe 2 - subgrupo 4",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-pi-pico-w",
+      "id": "pico",
+      "top": -51.25,
+      "left": 32.35,
+      "attrs": { "builder": "pico-sdk" }
+    }
+  ],
+  "connections": [
+    ["pico:GP0", "$serialMonitor:RX", "", []],
+    ["pico:GP1", "$serialMonitor:TX", "", []]
+  ],
+  "dependencies": {}
+}

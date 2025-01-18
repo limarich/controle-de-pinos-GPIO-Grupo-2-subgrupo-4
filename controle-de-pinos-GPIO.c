@@ -9,6 +9,7 @@ int main()
 {
     stdio_init_all();
     char command[20];
+    printf("Escreva algum comando: \n");
     while (true)
     {
         if (read_serial_command(command, sizeof(command)))
