@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include <string.h>
+#include "pico/bootrom.h"
 
 // FUNÇÃO PARA LER COMANDOS VIA SERIAL
 int read_serial_command(char *command, size_t size);
+// FUNÇÃO PARA PROCESSAR OS COMANDOS LIDOS
+void process_command(const char *command);
 
 int main()
 {
@@ -15,6 +18,7 @@ int main()
         if (read_serial_command(command, sizeof(command)))
         {
             printf("comando lido: %s\n", command);
+            process_command(command);
         }
     }
 }
@@ -42,4 +46,23 @@ int read_serial_command(char *command, size_t size)
         }
     }
     return 0; // indica que não houve leitura
+}
+
+void process_command(const char *command)
+{
+    if (strcmp(command, "ON") == 0)
+    {
+        //    E CONTINUA DAQUI
+    }
+    else if (strcmp(command, "BOOT") == 0)
+    {
+        // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO N FAZ NADA :-P
+        printf("Reiniciando no modo bootloader...\n");
+        sleep_ms(500);
+        reset_usb_boot(0, 0);
+    }
+    else
+    {
+        printf("Comando não reconhecido: %s\n", command);
+    }
 }
