@@ -11,6 +11,8 @@ void process_command(const char *command);
 void setup_gpio();
 // FUNÇÃO PARA COMBINAR TODAS AS CORES NO LED RGB E GERAR A BRANCA
 void ligar_led_branco();
+// FUNÇÃO PARA LIGAR LED VERMELHO
+void ligar_led_vermelho();
 
 // Define os pinos GPIO para o LED RGB
 #define LED_R_PIN 13 // VERMELHO
@@ -68,6 +70,10 @@ void process_command(const char *command)
         // Acende o LED RGB na cor branca
         ligar_led_branco();
     }
+    else if (strcmp(command, "VERMELHO") == 0) {
+        // Acende o LED RGB na cor branca
+        ligar_led_vermelho();
+    }
     else if (strcmp(command, "BOOT") == 0)
     {
         // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO N FAZ NADA :-P
@@ -97,4 +103,8 @@ void ligar_led_branco() {
     gpio_put(LED_R_PIN, 1);
     gpio_put(LED_G_PIN, 1);
     gpio_put(LED_B_PIN, 1);
+}
+
+void ligar_led_vermelho() {
+    gpio_put(LED_R_PIN, 1);
 }
