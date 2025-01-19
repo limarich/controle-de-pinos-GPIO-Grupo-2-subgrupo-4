@@ -20,6 +20,7 @@ void ligar_led_branco();
 int main()
 {
     stdio_init_all();
+    setup_gpio(); // Inicialização da GPIOs
     char command[20];
     printf("Escreva algum comando: \n");
     while (true)
@@ -62,6 +63,10 @@ void process_command(const char *command)
     if (strcmp(command, "ON") == 0)
     {
         //    E CONTINUA DAQUI
+    }
+    else if (strcmp(command, "BRANCA") == 0) {
+        // Acende o LED RGB na cor branca
+        ligar_led_branco();
     }
     else if (strcmp(command, "BOOT") == 0)
     {
