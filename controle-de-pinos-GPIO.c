@@ -9,6 +9,8 @@ int read_serial_command(char *command, size_t size);
 void process_command(const char *command);
 // FUNÇÃO PARA INCIALIZAR OS PINOS GPIOS
 void setup_gpio();
+// FUNÇÃO PARA COMBINAR TODAS AS CORES NO LED RGB E GERAR A BRANCA
+void ligar_led_branco();
 
 // Define os pinos GPIO para o LED RGB
 #define LED_R_PIN 13 // VERMELHO
@@ -83,4 +85,11 @@ void setup_gpio() {
     gpio_set_dir(LED_G_PIN, GPIO_OUT);
     gpio_init(LED_B_PIN);
     gpio_set_dir(LED_B_PIN, GPIO_OUT);
+}
+
+// Função para ligar o LED RGB na cor branca
+void ligar_led_branco() {
+    gpio_put(LED_R_PIN, 1);
+    gpio_put(LED_G_PIN, 1);
+    gpio_put(LED_B_PIN, 1);
 }
