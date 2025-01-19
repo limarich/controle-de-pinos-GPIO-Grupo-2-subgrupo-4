@@ -6,14 +6,61 @@
     {
       "type": "board-pi-pico-w",
       "id": "pico",
-      "top": -51.25,
-      "left": 32.35,
+      "top": 164.35,
+      "left": 200.25,
+      "rotate": 90,
       "attrs": { "builder": "pico-sdk" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": 93.3,
+      "left": 263.7,
+      "rotate": 90,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb1",
+      "top": 148.8,
+      "left": 274.5,
+      "rotate": 90,
+      "attrs": { "common": "cathode" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 167.15,
+      "left": 211.2,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 186.35,
+      "left": 211.2,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 205.55,
+      "left": 211.2,
+      "attrs": { "value": "220" }
     }
   ],
   "connections": [
     ["pico:GP0", "$serialMonitor:RX", "", []],
-    ["pico:GP1", "$serialMonitor:TX", "", []]
+    ["pico:GP1", "$serialMonitor:TX", "", []],
+    [ "bz1:2", "pico:GP10", "red", [ "h0" ] ],
+    [ "bz1:1", "pico:GND.4", "black", [ "h0" ] ],
+    [ "rgb1:G", "r2:2", "limegreen", [ "v0" ] ],
+    [ "rgb1:B", "r3:2", "blue", [ "h0" ] ],
+    [ "rgb1:R", "r1:2", "red", [ "v0" ] ],
+    [ "pico:GND.3", "rgb1:COM", "black", [ "v9.6", "h-48", "v-67.2" ] ],
+    [ "r3:1", "pico:GP12", "blue", [ "v0", "h-28.8" ] ],
+    [ "pico:GP11", "r2:1", "limegreen", [ "v-38.4" ] ],
+    [ "r1:1", "pico:GP13", "red", [ "v0", "h-38.4" ] ]
   ],
   "dependencies": {}
 }
