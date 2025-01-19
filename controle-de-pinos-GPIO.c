@@ -7,6 +7,13 @@
 int read_serial_command(char *command, size_t size);
 // FUNÇÃO PARA PROCESSAR OS COMANDOS LIDOS
 void process_command(const char *command);
+// FUNÇÃO PARA INCIALIZAR OS PINOS GPIOS
+void setup_gpio();
+
+// Define os pinos GPIO para o LED RGB
+#define LED_R_PIN 13 // VERMELHO
+#define LED_B_PIN 11 // AZUl
+#define LED_G_PIN 12 // VERDE
 
 int main()
 {
@@ -65,4 +72,15 @@ void process_command(const char *command)
     {
         printf("Comando não reconhecido: %s\n", command);
     }
+}
+
+// Função para inicialização dos pinos GPIO
+void setup_gpio() {
+    // Configuração do LED RGB como saída
+    gpio_init(LED_R_PIN);
+    gpio_set_dir(LED_R_PIN, GPIO_OUT);
+    gpio_init(LED_G_PIN);
+    gpio_set_dir(LED_G_PIN, GPIO_OUT);
+    gpio_init(LED_B_PIN);
+    gpio_set_dir(LED_B_PIN, GPIO_OUT);
 }
