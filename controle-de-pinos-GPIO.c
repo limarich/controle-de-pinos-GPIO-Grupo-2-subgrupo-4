@@ -7,10 +7,20 @@
 int read_serial_command(char *command, size_t size);
 // FUNÇÃO PARA PROCESSAR OS COMANDOS LIDOS
 void process_command(const char *command);
+// FUNÇÃO PARA INCIALIZAR OS PINOS GPIOS
+void setup_gpio();
+// FUNÇÃO PARA COMBINAR TODAS AS CORES NO LED RGB E GERAR A BRANCA
+void ligar_led_branco();
+
+// Define os pinos GPIO para o LED RGB
+#define LED_R_PIN 13 // VERMELHO
+#define LED_B_PIN 11 // AZUl
+#define LED_G_PIN 12 // VERDE
 
 int main()
 {
     stdio_init_all();
+    setup_gpio(); // Inicialização da GPIOs
     char command[20];
     printf("Escreva algum comando: \n");
     while (true)
@@ -54,6 +64,10 @@ void process_command(const char *command)
     {
         //    E CONTINUA DAQUI
     }
+    else if (strcmp(command, "BRANCA") == 0) {
+        // Acende o LED RGB na cor branca
+        ligar_led_branco();
+    }
     else if (strcmp(command, "BOOT") == 0)
     {
         // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO N FAZ NADA :-P
@@ -65,4 +79,22 @@ void process_command(const char *command)
     {
         printf("Comando não reconhecido: %s\n", command);
     }
+}
+
+// Função para inicialização dos pinos GPIO
+void setup_gpio() {
+    // Configuração do LED RGB como saída
+    gpio_init(LED_R_PIN);
+    gpio_set_dir(LED_R_PIN, GPIO_OUT);
+    gpio_init(LED_G_PIN);
+    gpio_set_dir(LED_G_PIN, GPIO_OUT);
+    gpio_init(LED_B_PIN);
+    gpio_set_dir(LED_B_PIN, GPIO_OUT);
+}
+
+// Função para ligar o LED RGB na cor branca
+void ligar_led_branco() {
+    gpio_put(LED_R_PIN, 1);
+    gpio_put(LED_G_PIN, 1);
+    gpio_put(LED_B_PIN, 1);
 }
