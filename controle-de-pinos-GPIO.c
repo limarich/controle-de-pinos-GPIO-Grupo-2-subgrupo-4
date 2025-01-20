@@ -16,16 +16,16 @@ void ligar_led_branco();
 void ligar_led_vermelho();
 // FUNÇÃO PARA LIGAR LED AZUL
 void ligar_led_azul();
+//FUNÇÃO PARA LIGAR LED VERDE
+void ligar_led_verde();
 // FUNÇÃO PARA EMITIR SOM NO BUZZER
 void emitir_som();
-
 
 // Define os pinos GPIO para o LED RGB
 #define LED_G_PIN 11 // VERDE
 #define LED_B_PIN 12 // AZUL
 #define LED_R_PIN 13 // VERMELHO
 #define BUZZER_PIN 10 // Pino do buzzer
-
 
 int main()
 {
@@ -84,7 +84,7 @@ void process_command(const char *command)
         // Acende o LED RGB na cor vermelha
         ligar_led_vermelho();
     }
-    else if (strcmp(command, "SOM") == 0) {
+     else if (strcmp(command, "SOM") == 0) {
         // Emite som no buzzer por 2 segundos
         emitir_som();
     }
@@ -92,6 +92,11 @@ void process_command(const char *command)
     {
         // Acende o LED RGB na cor azul
         ligar_led_azul();
+    }
+    else if (strcmp(command, "VERDE") == 0)
+    {
+        // Acende o LED RGB na cor azul
+        ligar_led_verde();
     }
     else if (strcmp(command, "BOOT") == 0)
     {
@@ -146,7 +151,13 @@ void ligar_led_azul()
     gpio_put(LED_G_PIN, 0);
     gpio_put(LED_B_PIN, 1);
 }
-
+// Função para ligar o LED RGB na cor verde
+void ligar_led_verde()
+{
+    gpio_put(LED_R_PIN, 0);
+    gpio_put(LED_G_PIN, 1);
+    gpio_put(LED_B_PIN, 0);
+}
 // Função para emitir som no buzzer (2 segundos)
 void emitir_som() {
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
