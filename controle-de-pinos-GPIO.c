@@ -15,6 +15,8 @@ void ligar_led_branco();
 void ligar_led_vermelho();
 // FUNÇÃO PARA LIGAR LED AZUL
 void ligar_led_azul();
+// FUNÇÃO PARA DESLIGAR TODAS AS CORES DO LED RGB
+void desligar_led_completamente();
 
 // Define os pinos GPIO para o LED RGB
 #define LED_G_PIN 11 // VERDE
@@ -83,6 +85,11 @@ void process_command(const char *command)
         // Acende o LED RGB na cor azul
         ligar_led_azul();
     }
+    else if (strcmp(command, "LEDSOFF") == 0)
+    {
+        // Acende o LED RGB na cor azul
+        desligar_led_completamente();
+    }
     else if (strcmp(command, "BOOT") == 0)
     {
         // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO N FAZ NADA :-P
@@ -130,4 +137,11 @@ void ligar_led_azul()
     gpio_put(LED_R_PIN, 0);
     gpio_put(LED_G_PIN, 0);
     gpio_put(LED_B_PIN, 1);
+}
+
+// Função para desligar o LED RGB completamente
+void desligar_led_completamente() {
+  gpio_put(LED_R_PIN, 0); // Desliga LED RED
+  gpio_put(LED_G_PIN, 0); // Desliga LED GREEN
+  gpio_put(LED_B_PIN, 0); // Desliga LED BLUE
 }
