@@ -16,15 +16,15 @@ void ligar_led_branco();
 void ligar_led_vermelho();
 // FUNÇÃO PARA LIGAR LED AZUL
 void ligar_led_azul();
-//FUNÇÃO PARA LIGAR LED VERDE
+// FUNÇÃO PARA LIGAR LED VERDE
 void ligar_led_verde();
 // FUNÇÃO PARA EMITIR SOM NO BUZZER
 void emitir_som();
 
 // Define os pinos GPIO para o LED RGB
-#define LED_G_PIN 11 // VERDE
-#define LED_B_PIN 12 // AZUL
-#define LED_R_PIN 13 // VERMELHO
+#define LED_G_PIN 11  // VERDE
+#define LED_B_PIN 12  // AZUL
+#define LED_R_PIN 13  // VERMELHO
 #define BUZZER_PIN 10 // Pino do buzzer
 
 int main()
@@ -70,9 +70,12 @@ int read_serial_command(char *command, size_t size)
 
 void process_command(const char *command)
 {
-    if (strcmp(command, "ON") == 0)
+    if (strcmp(command, "OFF") == 0)
     {
-        //    E CONTINUA DAQUI
+        // APAGA o LED
+        gpio_put(LED_R_PIN, 0);
+        gpio_put(LED_G_PIN, 0);
+        gpio_put(LED_B_PIN, 0);
     }
     else if (strcmp(command, "BRANCA") == 0)
     {
@@ -84,7 +87,8 @@ void process_command(const char *command)
         // Acende o LED RGB na cor vermelha
         ligar_led_vermelho();
     }
-     else if (strcmp(command, "SOM") == 0) {
+    else if (strcmp(command, "SOM") == 0)
+    {
         // Emite som no buzzer por 2 segundos
         emitir_som();
     }
@@ -121,7 +125,7 @@ void setup_gpio()
     gpio_set_dir(LED_G_PIN, GPIO_OUT);
     gpio_init(LED_B_PIN);
     gpio_set_dir(LED_B_PIN, GPIO_OUT);
-     // Configuração do pino do buzzer como PWM
+    // Configuração do pino do buzzer como PWM
     gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
     pwm_set_wrap(slice_num, 1250); // Define um valor inicial para o top do PWM
@@ -159,11 +163,12 @@ void ligar_led_verde()
     gpio_put(LED_B_PIN, 0);
 }
 // Função para emitir som no buzzer (2 segundos)
-void emitir_som() {
+void emitir_som()
+{
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
 
     // Configura a frequência do buzzer (440 Hz = Lá)
-    uint freq_hz = 440; // Frequência ajustável
+    uint freq_hz = 440;     // Frequência ajustável
     uint clock = 125000000; // Frequência do clock do PWM
     uint top = clock / freq_hz;
 
