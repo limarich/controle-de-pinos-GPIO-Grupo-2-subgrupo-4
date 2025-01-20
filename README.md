@@ -8,10 +8,12 @@ Este projeto implementa uma interface serial para interagir com uma placa basead
 ## **Recursos Implementados**
 
 ### **1. Comandos Disponíveis**
-- **`BOOT`**: Reinicia a placa no modo bootloader para atualizações ou reconfiguração;
-- **`BRANCA`**: Liga O LED RGB com a cor branca;
-- **`AZUL`**: Liga O LED RGB com a cor azul;
-- **`LEDSOFF`**: Desliga os leds totalemnte; 
+- **`BOOT`**: Reinicia a placa no modo bootloader para atualizações ou reconfiguração.
+- **`BRANCA`**: Liga o LED RGB com a cor branca.
+- **`OFF`**: Desliga os LEDs totalmente.
+- **`VERMELHO`**: Liga apenas o componente vermelho do LED RGB.
+- **`AZUL`**: Liga apenas o componente azul do LED RGB.
+- **`VERDE`**: Liga apenas o componente verde do LED RGB.
 - Comandos desconhecidos exibem uma mensagem informativa no console.
 
 ### **2. Modularização**
@@ -40,19 +42,67 @@ Responsável por interpretar e executar ações baseadas no comando recebido. At
 4. Abra o terminal serial com o baud rate configurado de 115200.
 5. Envie os comandos suportados e observe as respostas no terminal.
 
+
+
 ---
 
 ## **Exemplos de Uso**
 
 ### **Execução no Terminal**
-**Saída esperada para o comando `BOOT`**:
+#### **Comando `BOOT`**
+Reinicia o microcontrolador no modo bootloader:
+
 ```plaintext
 Escreva algum comando:
 comando lido: BOOT
 Reiniciando no modo bootloader...
 ```
 
-**Saída esperada para comandos desconhecidos**:
+#### **Comando `BRANCA`**
+Acende o LED RGB na cor branca:
+
+```plaintext
+Escreva algum comando:
+comando lido: BRANCA
+```
+
+#### **Comando `VERMELHO`**
+Acende o LED RGB na cor vermelha:
+
+```plaintext
+Escreva algum comando:
+comando lido: VERMELHO
+```
+
+#### **Comando `AZUL`**
+Acende o LED RGB na cor azul:
+
+```plaintext
+Escreva algum comando:
+comando lido: AZUL
+```
+
+#### **Comando `VERDE`**
+Acende o LED RGB na cor verde:
+
+```plaintext
+Escreva algum comando:
+comando lido: VERDE
+```
+
+#### **Comando `SOM`**
+Emite um som de 2 segundos no buzzer:
+
+```plaintext
+Escreva algum comando:
+comando lido: SOM
+```
+
+---
+
+### **Comandos desconhecidos**
+Caso um comando não seja reconhecido, a saída será similar a:
+
 ```plaintext
 Escreva algum comando:
 comando lido: INVALIDO
@@ -60,6 +110,8 @@ Comando não reconhecido: INVALIDO
 ```
 
 ---
+
+
 
 ## **Detalhes do Código**
 
