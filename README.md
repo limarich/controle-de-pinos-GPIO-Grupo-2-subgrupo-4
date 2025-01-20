@@ -3,6 +3,7 @@
 ## **Descrição Geral**
 Este projeto implementa uma interface serial para interagir com uma placa baseada no microcontrolador RP2040. Por meio de comandos recebidos via serial, é possível controlar funcionalidades específicas, como entrada no modo bootloader ou manipulação de pinos GPIO.
 
+Link pra o vídeo [aqui](https://youtube.com/shorts/qzK06W0OzSc?feature=share)
 ---
 
 ## **Recursos Implementados**
