@@ -13,11 +13,13 @@ void setup_gpio();
 void ligar_led_branco();
 // FUNÇÃO PARA LIGAR LED VERMELHO
 void ligar_led_vermelho();
+// FUNÇÃO PARA LIGAR LED AZUL
+void ligar_led_azul();
 
 // Define os pinos GPIO para o LED RGB
+#define LED_G_PIN 11 // VERDE
+#define LED_B_PIN 12 // AZUL
 #define LED_R_PIN 13 // VERMELHO
-#define LED_B_PIN 11 // AZUl
-#define LED_G_PIN 12 // VERDE
 
 int main()
 {
@@ -66,13 +68,20 @@ void process_command(const char *command)
     {
         //    E CONTINUA DAQUI
     }
-    else if (strcmp(command, "BRANCA") == 0) {
+    else if (strcmp(command, "BRANCA") == 0)
+    {
         // Acende o LED RGB na cor branca
         ligar_led_branco();
     }
-    else if (strcmp(command, "VERMELHO") == 0) {
-        // Acende o LED RGB na cor branca
+    else if (strcmp(command, "VERMELHO") == 0)
+    {
+        // Acende o LED RGB na cor vermelha
         ligar_led_vermelho();
+    }
+    else if (strcmp(command, "AZUL") == 0)
+    {
+        // Acende o LED RGB na cor azul
+        ligar_led_azul();
     }
     else if (strcmp(command, "BOOT") == 0)
     {
@@ -88,7 +97,8 @@ void process_command(const char *command)
 }
 
 // Função para inicialização dos pinos GPIO
-void setup_gpio() {
+void setup_gpio()
+{
     // Configuração do LED RGB como saída
     gpio_init(LED_R_PIN);
     gpio_set_dir(LED_R_PIN, GPIO_OUT);
@@ -99,12 +109,25 @@ void setup_gpio() {
 }
 
 // Função para ligar o LED RGB na cor branca
-void ligar_led_branco() {
+void ligar_led_branco()
+{
     gpio_put(LED_R_PIN, 1);
     gpio_put(LED_G_PIN, 1);
     gpio_put(LED_B_PIN, 1);
 }
 
-void ligar_led_vermelho() {
+// Função para ligar o LED RGB na cor vermelha
+void ligar_led_vermelho()
+{
     gpio_put(LED_R_PIN, 1);
+    gpio_put(LED_G_PIN, 0);
+    gpio_put(LED_B_PIN, 0);
+}
+
+// Função para ligar o LED RGB na cor azul
+void ligar_led_azul()
+{
+    gpio_put(LED_R_PIN, 0);
+    gpio_put(LED_G_PIN, 0);
+    gpio_put(LED_B_PIN, 1);
 }
