@@ -20,6 +20,8 @@ void ligar_led_azul();
 void ligar_led_verde();
 // FUNÇÃO PARA EMITIR SOM NO BUZZER
 void emitir_som();
+// FUNÇÃO PARA DESLIGAR TODAS AS CORES DO LED RGB
+void desligar_led_completamente();
 
 // Define os pinos GPIO para o LED RGB
 #define LED_G_PIN 11  // VERDE
@@ -102,6 +104,11 @@ void process_command(const char *command)
         // Acende o LED RGB na cor azul
         ligar_led_verde();
     }
+    else if (strcmp(command, "LEDSOFF") == 0)
+    {
+        // Acende o LED RGB na cor azul
+        desligar_led_completamente();
+    }
     else if (strcmp(command, "BOOT") == 0)
     {
         // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO N FAZ NADA :-P
@@ -155,6 +162,8 @@ void ligar_led_azul()
     gpio_put(LED_G_PIN, 0);
     gpio_put(LED_B_PIN, 1);
 }
+
+
 // Função para ligar o LED RGB na cor verde
 void ligar_led_verde()
 {
@@ -162,6 +171,14 @@ void ligar_led_verde()
     gpio_put(LED_G_PIN, 1);
     gpio_put(LED_B_PIN, 0);
 }
+
+// Função para desligar o LED RGB completamente
+void desligar_led_completamente() {
+  gpio_put(LED_R_PIN, 0); // Desliga LED RED
+  gpio_put(LED_G_PIN, 0); // Desliga LED GREEN
+  gpio_put(LED_B_PIN, 0); // Desliga LED BLUE
+}
+
 // Função para emitir som no buzzer (2 segundos)
 void emitir_som()
 {
