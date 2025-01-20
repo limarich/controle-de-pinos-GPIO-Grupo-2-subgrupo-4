@@ -2,6 +2,7 @@
 #include "pico/stdlib.h"
 #include <string.h>
 #include "pico/bootrom.h"
+#include "hardware/pwm.h"
 
 // FUNÇÃO PARA LER COMANDOS VIA SERIAL
 int read_serial_command(char *command, size_t size);
@@ -15,6 +16,10 @@ void ligar_led_branco();
 void ligar_led_vermelho();
 // FUNÇÃO PARA LIGAR LED AZUL
 void ligar_led_azul();
+//FUNÇÃO PARA LIGAR LED VERDE
+void ligar_led_verde();
+// FUNÇÃO PARA EMITIR SOM NO BUZZER
+void emitir_som();
 // FUNÇÃO PARA DESLIGAR TODAS AS CORES DO LED RGB
 void desligar_led_completamente();
 
@@ -22,6 +27,7 @@ void desligar_led_completamente();
 #define LED_G_PIN 11 // VERDE
 #define LED_B_PIN 12 // AZUL
 #define LED_R_PIN 13 // VERMELHO
+#define BUZZER_PIN 10 // Pino do buzzer
 
 int main()
 {
@@ -80,10 +86,19 @@ void process_command(const char *command)
         // Acende o LED RGB na cor vermelha
         ligar_led_vermelho();
     }
+     else if (strcmp(command, "SOM") == 0) {
+        // Emite som no buzzer por 2 segundos
+        emitir_som();
+    }
     else if (strcmp(command, "AZUL") == 0)
     {
         // Acende o LED RGB na cor azul
         ligar_led_azul();
+    }
+    else if (strcmp(command, "VERDE") == 0)
+    {
+        // Acende o LED RGB na cor azul
+        ligar_led_verde();
     }
     else if (strcmp(command, "LEDSOFF") == 0)
     {
@@ -113,6 +128,11 @@ void setup_gpio()
     gpio_set_dir(LED_G_PIN, GPIO_OUT);
     gpio_init(LED_B_PIN);
     gpio_set_dir(LED_B_PIN, GPIO_OUT);
+     // Configuração do pino do buzzer como PWM
+    gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
+    uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+    pwm_set_wrap(slice_num, 1250); // Define um valor inicial para o top do PWM
+    pwm_set_enabled(slice_num, true);
 }
 
 // Função para ligar o LED RGB na cor branca
@@ -139,9 +159,35 @@ void ligar_led_azul()
     gpio_put(LED_B_PIN, 1);
 }
 
+
+// Função para ligar o LED RGB na cor verde
+void ligar_led_verde()
+{
+    gpio_put(LED_R_PIN, 0);
+    gpio_put(LED_G_PIN, 1);
+    gpio_put(LED_B_PIN, 0);
+}
+
 // Função para desligar o LED RGB completamente
 void desligar_led_completamente() {
   gpio_put(LED_R_PIN, 0); // Desliga LED RED
   gpio_put(LED_G_PIN, 0); // Desliga LED GREEN
   gpio_put(LED_B_PIN, 0); // Desliga LED BLUE
+}
+
+// Função para emitir som no buzzer (2 segundos)
+void emitir_som() {
+    uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+
+    // Configura a frequência do buzzer (440 Hz = Lá)
+    uint freq_hz = 440; // Frequência ajustável
+    uint clock = 125000000; // Frequência do clock do PWM
+    uint top = clock / freq_hz;
+
+    pwm_set_wrap(slice_num, top);
+    pwm_set_gpio_level(BUZZER_PIN, top / 2); // 50% duty cycle para som audível
+
+    sleep_ms(2000); // Emite som por 2 segundos
+
+    pwm_set_gpio_level(BUZZER_PIN, 0); // Desliga o buzzer
 }
