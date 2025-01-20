@@ -8,7 +8,9 @@ Este projeto implementa uma interface serial para interagir com uma placa basead
 ## **Recursos Implementados**
 
 ### **1. Comandos Disponíveis**
-- **`BOOT`**: Reinicia a placa no modo bootloader para atualizações ou reconfiguração.
+- **`BOOT`**: Reinicia a placa no modo bootloader para atualizações ou reconfiguração;
+- **`BRANCA`**: Liga O LED RGB com a cor branca;
+- **`LEDSOFF`**: Desliga os leds totalemnte; 
 - Comandos desconhecidos exibem uma mensagem informativa no console.
 
 ### **2. Modularização**
