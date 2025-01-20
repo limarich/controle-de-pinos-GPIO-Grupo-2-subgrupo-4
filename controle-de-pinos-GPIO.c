@@ -14,14 +14,18 @@ void setup_gpio();
 void ligar_led_branco();
 // FUNÇÃO PARA LIGAR LED VERMELHO
 void ligar_led_vermelho();
+// FUNÇÃO PARA LIGAR LED AZUL
+void ligar_led_azul();
 // FUNÇÃO PARA EMITIR SOM NO BUZZER
 void emitir_som();
 
-// Define os pinos GPIO para o LED RGB e o buzzer
+
+// Define os pinos GPIO para o LED RGB
+#define LED_G_PIN 11 // VERDE
+#define LED_B_PIN 12 // AZUL
 #define LED_R_PIN 13 // VERMELHO
-#define LED_B_PIN 11 // AZUL
-#define LED_G_PIN 12 // VERDE
 #define BUZZER_PIN 10 // Pino do buzzer
+
 
 int main()
 {
@@ -39,7 +43,7 @@ int main()
     }
 }
 
-// FUNÇÃO PARA LER COMANDOS VIA SERIAL -> retorna 1 se tiver alguma leitura e 0 caso contrário
+// FUNÇÃO PARA LER COMANDOS VIA SERIAL-> retorna 1 se tiver alguma leitura e 0 caso contrário
 int read_serial_command(char *command, size_t size)
 {
     static int index = 0;
@@ -70,11 +74,13 @@ void process_command(const char *command)
     {
         //    E CONTINUA DAQUI
     }
-    else if (strcmp(command, "BRANCA") == 0) {
+    else if (strcmp(command, "BRANCA") == 0)
+    {
         // Acende o LED RGB na cor branca
         ligar_led_branco();
     }
-    else if (strcmp(command, "VERMELHO") == 0) {
+    else if (strcmp(command, "VERMELHO") == 0)
+    {
         // Acende o LED RGB na cor vermelha
         ligar_led_vermelho();
     }
@@ -82,9 +88,14 @@ void process_command(const char *command)
         // Emite som no buzzer por 2 segundos
         emitir_som();
     }
+    else if (strcmp(command, "AZUL") == 0)
+    {
+        // Acende o LED RGB na cor azul
+        ligar_led_azul();
+    }
     else if (strcmp(command, "BOOT") == 0)
     {
-        // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO NÃO FAZ NADA :-P
+        // SÓ FUNCIONA NO HARDWARE - NA SIMULAÇÃO N FAZ NADA :-P
         printf("Reiniciando no modo bootloader...\n");
         sleep_ms(500);
         reset_usb_boot(0, 0);
@@ -96,7 +107,8 @@ void process_command(const char *command)
 }
 
 // Função para inicialização dos pinos GPIO
-void setup_gpio() {
+void setup_gpio()
+{
     // Configuração do LED RGB como saída
     gpio_init(LED_R_PIN);
     gpio_set_dir(LED_R_PIN, GPIO_OUT);
@@ -104,7 +116,7 @@ void setup_gpio() {
     gpio_set_dir(LED_G_PIN, GPIO_OUT);
     gpio_init(LED_B_PIN);
     gpio_set_dir(LED_B_PIN, GPIO_OUT);
-    // Configuração do pino do buzzer como PWM
+     // Configuração do pino do buzzer como PWM
     gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
     pwm_set_wrap(slice_num, 1250); // Define um valor inicial para o top do PWM
@@ -112,14 +124,27 @@ void setup_gpio() {
 }
 
 // Função para ligar o LED RGB na cor branca
-void ligar_led_branco() {
+void ligar_led_branco()
+{
     gpio_put(LED_R_PIN, 1);
     gpio_put(LED_G_PIN, 1);
     gpio_put(LED_B_PIN, 1);
 }
 
-void ligar_led_vermelho() {
-    gpio_put(LED_R_PIN, 1); 
+// Função para ligar o LED RGB na cor vermelha
+void ligar_led_vermelho()
+{
+    gpio_put(LED_R_PIN, 1);
+    gpio_put(LED_G_PIN, 0);
+    gpio_put(LED_B_PIN, 0);
+}
+
+// Função para ligar o LED RGB na cor azul
+void ligar_led_azul()
+{
+    gpio_put(LED_R_PIN, 0);
+    gpio_put(LED_G_PIN, 0);
+    gpio_put(LED_B_PIN, 1);
 }
 
 // Função para emitir som no buzzer (2 segundos)
